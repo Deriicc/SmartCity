@@ -29,6 +29,11 @@ import ManufacturingNavigator from './src/screens/ManufacturingNavigator';
 import ParkingNavigator from './src/screens/ParkingNavigator';
 import AIServiceScreen from './src/screens/AIServiceScreen';
 import NewsDetailScreen from './src/screens/NewsDetailScreen';
+import CharityScreen from './src/screens/CharityScreen';
+import CharityDetailScreen from './src/screens/CharityDetailScreen';
+import DonationPaymentScreen from './src/screens/DonationPaymentScreen';
+import DonationHistoryScreen from './src/screens/DonationHistoryScreen';
+import DonationCertificateScreen from './src/screens/DonationCertificateScreen';
 
 const {width} = Dimensions.get('window');
 
@@ -97,7 +102,7 @@ const services = [
   {
     id: '7',
     icon: <Icon name="dots-horizontal" size={30} color="#666" />,
-    name: 'xxxxxx',
+    name: '教育服务',
   },
   {
     id: '8',
@@ -131,6 +136,11 @@ type RootStackParamList = {
   };
   AIService: undefined;
   NewsDetail: undefined;
+  Charity: undefined;
+  CharityDetail: undefined;
+  DonationPayment: undefined;
+  DonationHistory: undefined;
+  DonationCertificate: undefined;
 };
 
 type NavigationProp = {
@@ -147,7 +157,7 @@ const newsData = [
     id: '1',
     title: '北京智慧电竞赛事中心明年将举办100场顶级电竞大赛',
     summary:
-      '每经AI快讯，12月22日，据北京亦庄官微消息，在日前举行的中国电竞节超级冠军杯开幕式上，《KPL王者荣耀职业联赛JDG俱乐部主场2025年正式落地北京智慧电竞赛事中心及JDG电子竞技中心全年赛事规划》正式发布。此次发布会，北京经开区科文融合企业京东星宇电竞（北京）文化传播有限公司创始人兼CEO叶靖波共发布两项计划。其中之一是“百赛计划”，即2025年在北京智慧电竞赛事中心将举办100场顶级电竞大赛，平均3.5天一场比赛，覆盖全终端、全头部电竞项目。每日经济新闻',
+      '每经AI快讯，12月22日，据北京亦庄官微消息，在日前举行的中国电竞节超级冠军杯开幕式上，《KPL王者荣耀职业联赛JDG俱乐部主场2025年正式落地北京智慧电竞赛事中心及JDG电子竞技中心全年赛事规划》正式发布。此次发布会，北京经开区科文融合企业京东星宇电竞（北京）文化传播有限公司创始人兼CEO叶靖波共发布两项计划。其中之一是"百赛计划"，即2025年在北京智慧电竞赛事中心将举办100场顶级电竞大赛，平均3.5天一场比赛，覆盖全终端、全头部电竞项目。每日经济新闻',
     image:
       'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1khopO.img?w=630&h=472&m=6',
     date: '2024-12-22',
@@ -157,7 +167,7 @@ const newsData = [
     id: '2',
     title: '北京中轴线拟开启融媒化展陈新模式',
     summary:
-      '12月20日，北京中轴线 IP 迎来融媒化呈现和阐释的全新发展契机，北京京企中轴线保护公益基金会与新华融合媒体科技发展（北京）有限公司合作，双方将运用前沿数字技术，共同探索其融媒化发展新路径，以期进一步提升北京中轴线的知名度和影响力，更为文化遗产的保护与传承开拓新思路、新模式...',
+      '12月20日，北京中轴线 IP 融媒化呈现和阐释的全新发展契机，北京京企中轴线保护公益基金会与新华融合媒体科技发展（北京）有限公司合作，双方将运用前沿数字技术，共同探索其融媒化发展新路径，以期进一步提升北京中轴线的知名度和影响力，更为文化遗产的保护与传承开拓新思路、新模式...',
     image:
       'https://inews.gtimg.com/om_bt/OCgRhaqs9lLXkQQhk_TVWZfSRUWmn5WBuU9b6ASNWUBkYAA/641',
     date: '2024-03-24',
@@ -224,11 +234,14 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp}) => {
           case '数据分析':
             navigation.navigate('数据分析');
             break;
-          case '更多服务':
-            navigation.navigate('AllServices');
+          case '爱心公益':
+            navigation.navigate('Charity');
             break;
           case 'AI便民':
             navigation.navigate('AIService');
+            break;
+          case '更多服务':
+            navigation.navigate('AllServices');
             break;
         }
       }}>
@@ -418,6 +431,31 @@ const App = () => {
           name="NewsDetail"
           component={NewsDetailScreen}
           options={{title: '新闻详情'}}
+        />
+        <Stack.Screen
+          name="Charity"
+          component={CharityScreen}
+          options={{title: '爱心公益'}}
+        />
+        <Stack.Screen
+          name="CharityDetail"
+          component={CharityDetailScreen}
+          options={{title: '项目详情'}}
+        />
+        <Stack.Screen
+          name="DonationPayment"
+          component={DonationPaymentScreen}
+          options={{title: '捐款支付'}}
+        />
+        <Stack.Screen
+          name="DonationHistory"
+          component={DonationHistoryScreen}
+          options={{title: '捐款记录'}}
+        />
+        <Stack.Screen
+          name="DonationCertificate"
+          component={DonationCertificateScreen}
+          options={{title: '爱心证书'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
