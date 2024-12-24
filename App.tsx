@@ -34,6 +34,8 @@ import CharityDetailScreen from './src/screens/CharityDetailScreen';
 import DonationPaymentScreen from './src/screens/DonationPaymentScreen';
 import DonationHistoryScreen from './src/screens/DonationHistoryScreen';
 import DonationCertificateScreen from './src/screens/DonationCertificateScreen';
+import EducationServiceScreen from './src/screens/EducationServiceScreen';
+import CommunityServiceScreen from './src/screens/CommunityServiceScreen';
 
 const {width} = Dimensions.get('window');
 
@@ -81,7 +83,7 @@ const services = [
   },
   {
     id: '3',
-    icon: <Icon name="headphones-settings" size={30} color="#722ed1" />,
+    icon: <Icon name="headphones-settings" size={30} color="#cf1322" />,
     name: '政府服务热线',
   },
   {
@@ -101,7 +103,7 @@ const services = [
   },
   {
     id: '7',
-    icon: <Icon name="dots-horizontal" size={30} color="#666" />,
+    icon: <Icon name="school" size={30} color="#722ed1" />,
     name: '教育服务',
   },
   {
@@ -141,6 +143,8 @@ type RootStackParamList = {
   DonationPayment: undefined;
   DonationHistory: undefined;
   DonationCertificate: undefined;
+  EducationService: undefined;
+  CommunityService: undefined;
 };
 
 type NavigationProp = {
@@ -241,7 +245,10 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp}) => {
             navigation.navigate('AIService');
             break;
           case '更多服务':
-            navigation.navigate('AllServices');
+            navigation.navigate('全部服务');
+            break;
+          case '教育服务':
+            navigation.navigate('EducationService');
             break;
         }
       }}>
@@ -297,12 +304,8 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp}) => {
   );
 };
 
-// 其他页面的基本组件
-const AllServicesScreen = () => (
-  <View style={styles.container}>
-    <Text>全部服务</Text>
-  </View>
-);
+// 修改 AllServicesScreen 组件
+const AllServicesScreen = () => <CommunityServiceScreen />;
 
 // 将现有的 Tab.Navigator 封装为 MainApp 组件
 const MainApp = () => {
@@ -456,6 +459,28 @@ const App = () => {
           name="DonationCertificate"
           component={DonationCertificateScreen}
           options={{title: '爱心证书'}}
+        />
+        <Stack.Screen
+          name="EducationService"
+          component={EducationServiceScreen}
+          options={{
+            title: '教育服务',
+            headerTitleStyle: {
+              color: '#333',
+              fontSize: 18,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="CommunityService"
+          component={EducationServiceScreen}
+          options={{
+            title: '教育服务',
+            headerTitleStyle: {
+              color: '#333',
+              fontSize: 18,
+            },
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
