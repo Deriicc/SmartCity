@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   FlatList,
+  Linking,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {NavigationContainer} from '@react-navigation/native';
@@ -27,6 +28,7 @@ import NewComplaintScreen from './src/screens/NewComplaintScreen';
 import ManufacturingNavigator from './src/screens/ManufacturingNavigator';
 import ParkingNavigator from './src/screens/ParkingNavigator';
 import AIServiceScreen from './src/screens/AIServiceScreen';
+import NewsDetailScreen from './src/screens/NewsDetailScreen';
 
 const {width} = Dimensions.get('window');
 
@@ -35,30 +37,28 @@ const bannerData = [
   {
     id: '1',
     image: {
-      uri: 'https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg?auto=compress&cs=tinysrgb&w=800',
+      uri: 'https://www.beijing.gov.cn/ywdt/zwzt/esjszqh/spjj/202407/W020240731542097860113.png',
     },
-    link: 'news/1',
+    link: 'https://www.beijing.gov.cn/ywdt/zwzt/esjszqh/spjj/202407/t20240731_3763622.html',
   },
   {
     id: '2',
     image: {
-      uri: 'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=800',
+      uri: 'https://www.beijing.gov.cn/ywdt/zwzt/esjszqh/spjj/202407/W020240731525717267943.png',
     },
-    link: 'news/2',
+    link: 'https://www.beijing.gov.cn/ywdt/zwzt/esjszqh/spjj/202407/t20240731_3763565.html',
   },
   {
     id: '3',
     image: {
-      uri: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800',
+      uri: 'https://www.beijing.gov.cn/renwen/zt/ydbj/lbt/202204/W020220424369173527505.png',
     },
     link: 'news/3',
   },
   {
     id: '4',
-    image: {
-      uri: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    link: 'news/3',
+    image: require('./assets/congress.jpg'),
+    link: 'https://www.beijing.gov.cn/ywdt/zwzt/esjszqh/index.html',
   },
 ];
 
@@ -66,45 +66,42 @@ const bannerData = [
 const services = [
   {
     id: '1',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/3209/3209265.png'},
+    icon: <Icon name="briefcase-search" size={30} color="#1890ff" />,
     name: '找工作',
   },
   {
     id: '2',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2936/2936690.png'},
+    icon: <Icon name="chart-bar" size={30} color="#52c41a" />,
     name: '数据分析',
   },
   {
     id: '3',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/1052/1052906.png'},
+    icon: <Icon name="headphones-settings" size={30} color="#722ed1" />,
     name: '政府服务热线',
   },
   {
     id: '4',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/3349/3349595.png'},
+    icon: <Icon name="heart-multiple" size={30} color="#eb2f96" />,
     name: '爱心公益',
   },
-
   {
     id: '5',
-    icon: {
-      uri: 'https://web.uri.edu/transportation/wp-content/uploads/sites/834/AMP-logo-500x500.png',
-    },
+    icon: <Icon name="parking" size={30} color="#faad14" />,
     name: '停哪儿',
   },
   {
     id: '6',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/3349/3349595.png'},
+    icon: <Icon name="robot" size={30} color="#13c2c2" />,
     name: 'AI便民',
   },
   {
     id: '7',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/3349/3349595.png'},
-    name: '爱心公益',
+    icon: <Icon name="dots-horizontal" size={30} color="#666" />,
+    name: 'xxxxxx',
   },
   {
     id: '8',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2976/2976215.png'},
+    icon: <Icon name="apps" size={30} color="#8c8c8c" />,
     name: '更多服务',
   },
 ];
@@ -133,6 +130,7 @@ type RootStackParamList = {
     params?: any;
   };
   AIService: undefined;
+  NewsDetail: undefined;
 };
 
 type NavigationProp = {
@@ -143,8 +141,43 @@ type NavigationProp = {
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// 将现有组件重命名为 HomeScreen
+// 添加新闻数据
+const newsData = [
+  {
+    id: '1',
+    title: '北京智慧电竞赛事中心明年将举办100场顶级电竞大赛',
+    summary:
+      '每经AI快讯，12月22日，据北京亦庄官微消息，在日前举行的中国电竞节超级冠军杯开幕式上，《KPL王者荣耀职业联赛JDG俱乐部主场2025年正式落地北京智慧电竞赛事中心及JDG电子竞技中心全年赛事规划》正式发布。此次发布会，北京经开区科文融合企业京东星宇电竞（北京）文化传播有限公司创始人兼CEO叶靖波共发布两项计划。其中之一是“百赛计划”，即2025年在北京智慧电竞赛事中心将举办100场顶级电竞大赛，平均3.5天一场比赛，覆盖全终端、全头部电竞项目。每日经济新闻',
+    image:
+      'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1khopO.img?w=630&h=472&m=6',
+    date: '2024-12-22',
+    source: '每日经济新闻',
+  },
+  {
+    id: '2',
+    title: '北京中轴线拟开启融媒化展陈新模式',
+    summary:
+      '12月20日，北京中轴线 IP 迎来融媒化呈现和阐释的全新发展契机，北京京企中轴线保护公益基金会与新华融合媒体科技发展（北京）有限公司合作，双方将运用前沿数字技术，共同探索其融媒化发展新路径，以期进一步提升北京中轴线的知名度和影响力，更为文化遗产的保护与传承开拓新思路、新模式...',
+    image:
+      'https://inews.gtimg.com/om_bt/OCgRhaqs9lLXkQQhk_TVWZfSRUWmn5WBuU9b6ASNWUBkYAA/641',
+    date: '2024-03-24',
+    source: '北青网',
+  },
+  // 可以添加更多新闻...
+];
+
+// 修改 HomeScreen 组件
 const HomeScreen = ({navigation}: {navigation: NavigationProp}) => {
+  const handleBannerPress = (link: string) => {
+    if (link.startsWith('http')) {
+      // 使用 Linking 打开外部链接
+      Linking.openURL(link).catch(err => console.error('无法打开链接:', err));
+    } else {
+      // 内部导航
+      navigation.navigate('NewsDetail', {id: link.split('/')[1]});
+    }
+  };
+
   const renderBanner = () => (
     <View style={styles.bannerContainer}>
       <Swiper
@@ -157,7 +190,7 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp}) => {
         {bannerData.map(item => (
           <TouchableOpacity
             key={item.id}
-            onPress={() => navigation.navigate('NewsDetail', {id: item.id})}>
+            onPress={() => handleBannerPress(item.link)}>
             <Image
               source={item.image}
               style={styles.bannerImage}
@@ -199,24 +232,55 @@ const HomeScreen = ({navigation}: {navigation: NavigationProp}) => {
             break;
         }
       }}>
-      <View style={styles.iconContainer}>
-        <Image source={item.icon} style={styles.icon} />
-      </View>
+      <View style={styles.iconContainer}>{item.icon}</View>
       <Text style={styles.serviceName}>{item.name}</Text>
     </TouchableOpacity>
   );
 
+  const renderNewsItem = ({item}: {item: any}) => (
+    <TouchableOpacity
+      style={styles.newsItem}
+      onPress={() => navigation.navigate('NewsDetail', {news: item})}>
+      <Image source={{uri: item.image}} style={styles.newsImage} />
+      <View style={styles.newsContent}>
+        <Text style={styles.newsTitle} numberOfLines={2}>
+          {item.title}
+        </Text>
+        <Text style={styles.newsSummary} numberOfLines={2}>
+          {item.summary}
+        </Text>
+        <View style={styles.newsFooter}>
+          <Text style={styles.newsSource}>{item.source}</Text>
+          <Text style={styles.newsDate}>{item.date}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
-    <View style={styles.container}>
-      {renderBanner()}
-      <FlatList
-        data={services}
-        renderItem={renderServiceItem}
-        numColumns={4}
-        keyExtractor={item => item.id}
-        style={styles.serviceGrid}
-      />
-    </View>
+    <FlatList
+      style={styles.container}
+      ListHeaderComponent={
+        <>
+          {renderBanner()}
+          <View style={styles.serviceContainer}>
+            <FlatList
+              data={services}
+              renderItem={renderServiceItem}
+              numColumns={4}
+              keyExtractor={item => item.id}
+              scrollEnabled={false}
+            />
+          </View>
+          <View style={styles.newsHeader}>
+            <Text style={styles.newsHeaderTitle}>城市新闻</Text>
+          </View>
+        </>
+      }
+      data={newsData}
+      renderItem={renderNewsItem}
+      keyExtractor={item => item.id}
+    />
   );
 };
 
@@ -350,6 +414,11 @@ const App = () => {
           component={AIServiceScreen}
           options={{title: 'AI便民'}}
         />
+        <Stack.Screen
+          name="NewsDetail"
+          component={NewsDetailScreen}
+          options={{title: '新闻详情'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -359,14 +428,14 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f7fa',
   },
   bannerContainer: {
-    height: 200,
+    height: 230,
   },
   bannerImage: {
     width: width,
-    height: 200,
+    height: 230,
     resizeMode: 'cover',
   },
   dot: {
@@ -394,21 +463,79 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   iconContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#f0f0f0',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#f5f5f5',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
   },
-  icon: {
-    width: 30,
-    height: 30,
-  },
   serviceName: {
     fontSize: 12,
     color: '#333',
+    textAlign: 'center',
+  },
+  serviceContainer: {
+    padding: 15,
+    paddingBottom: 5,
+    backgroundColor: '#fff',
+    marginBottom: 10,
+  },
+  newsHeader: {
+    padding: 15,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    backgroundColor: '#fff',
+  },
+  newsHeaderTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  newsItem: {
+    flexDirection: 'row',
+    padding: 15,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    backgroundColor: '#fff',
+  },
+  newsImage: {
+    width: 120,
+    height: 90,
+    borderRadius: 8,
+  },
+  newsContent: {
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: 'space-between',
+  },
+  newsTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#333',
+    marginBottom: 6,
+  },
+  newsSummary: {
+    fontSize: 14,
+    color: '#666',
+    lineHeight: 20,
+  },
+  newsFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  newsSource: {
+    fontSize: 12,
+    color: '#1890ff',
+  },
+  newsDate: {
+    fontSize: 12,
+    color: '#999',
   },
 });
 
