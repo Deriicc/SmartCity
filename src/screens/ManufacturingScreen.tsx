@@ -18,17 +18,13 @@ const {width} = Dimensions.get('window');
 const bannerData = [
   {
     id: '1',
-    image: {
-      uri: 'https://images.pexels.com/photos/3846766/pexels-photo-3846766.jpeg',
-    },
-    title: '2024智能制造展',
+    image: require('../../assets/image1.png'),
+    title: '2024世界智能制造博览会',
   },
   {
     id: '2',
-    image: {
-      uri: 'https://images.pexels.com/photos/3846767/pexels-photo-3846767.jpeg',
-    },
-    title: '工业4.0展览会',
+    image: require('../../assets/image2.png'),
+    title: '2024世界智能网联汽车大会（WICV）',
   },
 ];
 
@@ -36,10 +32,11 @@ const bannerData = [
 const manufacturers = [
   {
     id: '1',
-    name: '智能科技有限公司',
-    description: '专注于工业自动化解决方案',
+    name: '施耐德电器',
+    description:
+      '全球能效管理和自动化领域专家，为工业、基础设施、数据中心、楼宇和住宅市场提供整体解决方案',
     image: {
-      uri: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg',
+      uri: 'https://th.bing.com/th/id/R.137b1cbbc333eb2260841d61cbb847b9?rik=dAt9baJovaFClQ&riu=http%3a%2f%2fi1.qhimg.com%2ft01c93622f8963fb708.jpg&ehk=4WPah5soFP0v0POfFlbEeWILF96iXtMP174Wl%2f7AM9c%3d&risl=&pid=ImgRaw&r=0',
     },
     video: 'video_url_1',
   },

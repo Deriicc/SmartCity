@@ -36,34 +36,34 @@ interface Manufacturer {
 // 模拟数据
 const manufacturer: Manufacturer = {
   id: '1',
-  name: '智能科技有限公司',
+  name: '施耐德电气',
   description:
-    '专注于工业自动化解决方案的高新技术企业，提供智能制造整体解决方案。',
+    '施耐德电气是全球能效管理和自动化领域的数字化转型专家。我们致力于为所有人提供能源和资源的有效利用，确保生活更加环保、高效、可靠和安全。',
   image: {
-    uri: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg',
+    uri: 'https://ts1.cn.mm.bing.net/th/id/R-C.18dca9ac75ecd102c718bf469e649e5d?rik=9mn1dGA6Pj6QuA&riu=http%3a%2f%2fwww.czkzsm.cn%2fstatic%2fupload%2fimage%2f20200317%2f1584428817621003.jpg&ehk=zcm1SuJ7WVIP3EoCXo6B6byMxCQwHzvuc35Ofhr8FTc%3d&risl=&pid=ImgRaw&r=0',
   },
-  category: '自动化',
+  category: '工业自动化与能源管理',
   location: '北京市',
-  establishedYear: '2010年',
-  scale: '500-1000人',
+  establishedYear: '1836年',
+  scale: '128,000+人',
   products: [
-    '工业机器人',
-    '智能��产线',
-    'AGV物流系统',
-    'MES系统',
-    '工业物联网平台',
+    '工业自动化系统',
+    '配电系统',
+    '楼宇自动化',
+    '数据中心解决方案',
+    '能源管理系统',
   ],
   certifications: [
     'ISO9001质量管理体系认证',
     'ISO14001环境管理体系认证',
-    '国家高新技术企业',
-    '工业机器人生产许可证',
+    'ISO50001能源管理体系认证',
+    '全球最具可持续发展企业',
   ],
   contact: {
-    address: '北京市海淀区科技园区888号',
-    phone: '010-88888888',
-    email: 'contact@smarttech.com',
-    website: 'www.smarttech.com',
+    address: '北京市朝阳区望京东路6号施耐德电气大厦',
+    phone: '400-810-1315',
+    email: 'china.service@se.com',
+    website: 'www.se.com/cn',
   },
 };
 
@@ -183,7 +183,7 @@ const ManufacturerDetailScreen: React.FC<Props> = ({navigation, route}) => {
           <Video
             ref={videoRef}
             source={{
-              uri: 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4',
+              uri: 'https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/40/85/1329578540/1329578540-1-192.mp4?e=ig8euxZM2rNcNbNghWdVhwdlhbN1hwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1735043000&gen=playurlv2&os=cosbv&oi=1696788563&trid=29e756cd671d4250970a42532e6c313fT&mid=275670816&platform=html5&og=cos&upsig=6d147e4162834feba682cde7f72ea2ae&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform,og&bvc=vod&nettype=0&bw=221830&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000',
             }}
             poster={manufacturer.image.uri}
             posterResizeMode="cover"

@@ -34,13 +34,13 @@ interface CharityProject {
 const charityProjects: CharityProject[] = [
   {
     id: '1',
-    title: '为山区儿童募集图书',
-    image:
-      'https://img1.baidu.com/it/u=1407750889,3441968730&fm=253&fmt=auto&app=120&f=JPEG?w=1200&h=800',
+    title: '贫困孤儿助养',
+    image: 'http://mat1.gtimg.com/gongyi/2013yuejuan/wzcz/wzcz_banner.jpg',
     targetAmount: 500000,
     currentAmount: 430000,
     status: '募款',
-    description: '为偏远山区的孩子们募集教育资源，帮助他们获得更好的学习条件。',
+    description:
+      '帮助中国贫困地区6周岁以上的孤儿，为他们提供基本生活和学习补助，使他们能和其他孩子一样享有受教育的权利，得到关怀和照顾，快乐健康成长',
     startDate: '2024-01-01',
     endDate: '2024-12-31',
     donorCount: 1234,
@@ -50,7 +50,7 @@ const charityProjects: CharityProject[] = [
     id: '2',
     title: '关爱老年人生活',
     image:
-      'https://img0.baidu.com/it/u=2583715862,2131801776&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
+      'https://inews.gtimg.com/news_bt/OuLgJxwcRdCGuSnz7xGM1pV5POblvU0Rhkd6KbiXH-P68AA/0',
     targetAmount: 1000000,
     currentAmount: 860000,
     status: '执行',
@@ -62,9 +62,9 @@ const charityProjects: CharityProject[] = [
   },
   {
     id: '3',
-    title: '特殊儿童康复援助',
+    title: '免费午餐 小善大爱”',
     image:
-      'https://img2.baidu.com/it/u=378903988,2929478561&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
+      'http://mat1.gtimg.com/gongyi/2013/loveplan/active/wangjujianai_980x302.jpg',
     targetAmount: 800000,
     currentAmount: 350000,
     status: '募款',
@@ -73,20 +73,6 @@ const charityProjects: CharityProject[] = [
     endDate: '2024-12-31',
     donorCount: 986,
     category: '医疗救助',
-  },
-  {
-    id: '4',
-    title: '乡村教师支持计划',
-    image:
-      'https://img1.baidu.com/it/u=3709586903,1286591012&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=333',
-    targetAmount: 600000,
-    currentAmount: 420000,
-    status: '审核',
-    description: '为乡村教师提供培训和教学资源支持，提升乡村教育质量。',
-    startDate: '2024-04-01',
-    endDate: '2024-10-31',
-    donorCount: 1567,
-    category: '教育助学',
   },
 ];
 

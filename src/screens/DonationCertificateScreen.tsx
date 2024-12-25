@@ -55,7 +55,7 @@ const DonationCertificateScreen = ({route, navigation}: any) => {
             </View>
             <Text style={styles.certificateText}>
               兹证明
-              <Text style={styles.highlightText}> 爱心用户 </Text>于
+              <Text style={styles.highlightText}> {record.donorName} </Text>于
               <Text style={styles.highlightText}> {record.date} </Text>
               通过
               <Text style={styles.highlightText}>
@@ -103,7 +103,7 @@ const DonationCertificateScreen = ({route, navigation}: any) => {
           <Text style={styles.infoTitle}>
             <Icon name="information" size={16} color="#1890ff" /> 证书说明
           </Text>
-          <Text style={styles.infoText}>• 本��书是您参与公益项目的证明</Text>
+          <Text style={styles.infoText}>• 本证书是您参与公益项目的证明</Text>
           <Text style={styles.infoText}>• 证书编号可用于验证真实性</Text>
           <Text style={styles.infoText}>• 您可以随时下载或分享证书</Text>
         </View>

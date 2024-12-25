@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface DonationRecord {
   id: string;
@@ -21,24 +22,31 @@ interface DonationRecord {
   certificateId?: string;
 }
 
-// 示例数据
-const donationHistory: DonationRecord[] = [
-  {
-    id: '1',
-    projectId: '1',
-    projectTitle: '为山区儿童募集图书',
-    projectImage:
-      'https://img1.baidu.com/it/u=1407750889,3441968730&fm=253&fmt=auto&app=120&f=JPEG?w=1200&h=800',
-    amount: 100,
-    date: '2024-03-15 14:30',
-    paymentMethod: 'alipay',
-    status: 'success',
-    certificateId: 'CERT2024031501',
-  },
-  // ... 更多记录
-];
-
 const DonationHistoryScreen = ({navigation}: any) => {
+  const [donationRecords, setDonationRecords] = useState<DonationRecord[]>([]);
+
+  useEffect(() => {
+    const loadDonationRecords = async () => {
+      try {
+        const records = await AsyncStorage.getItem('donationRecords');
+        if (records) {
+          setDonationRecords(JSON.parse(records));
+        }
+      } catch (error) {
+        console.error('加载捐款记录失败:', error);
+      }
+    };
+
+    loadDonationRecords();
+
+    // 添加导航监听器，以便在返回此页面时刷新数据
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadDonationRecords();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'success':
@@ -127,7 +135,7 @@ const DonationHistoryScreen = ({navigation}: any) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={donationHistory}
+        data={donationRecords}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContainer}

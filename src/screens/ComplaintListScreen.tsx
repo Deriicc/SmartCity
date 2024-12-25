@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,30 +8,33 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-// 模拟数据
-const complaints = [
-  {
-    id: '1',
-    title: '小区路灯不亮',
-    department: '市政维修部门',
-    submitTime: '2024-03-15 14:30',
-    status: '处理中',
-    completed: false,
-  },
-  {
-    id: '2',
-    title: '垃圾分类问题',
-    department: '环保部门',
-    submitTime: '2024-03-14 09:20',
-    status: '已完成',
-    completed: true,
-  },
-  // 更多数据...
-];
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ComplaintListScreen = ({navigation, route}) => {
   const {category} = route.params;
+  const [complaints, setComplaints] = useState([]);
+
+  useEffect(() => {
+    const loadComplaints = async () => {
+      try {
+        const savedComplaints = await AsyncStorage.getItem('complaints');
+        if (savedComplaints) {
+          const allComplaints = JSON.parse(savedComplaints);
+          // 根据类别筛选诉求
+          const filteredComplaints = allComplaints.filter(
+            complaint => complaint.category === category,
+          );
+          setComplaints(filteredComplaints);
+        }
+      } catch (error) {
+        console.error('加载诉求失败:', error);
+      }
+    };
+
+    const unsubscribe = navigation.addListener('focus', loadComplaints);
+    loadComplaints();
+    return unsubscribe;
+  }, [navigation, category]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,7 +44,7 @@ const ComplaintListScreen = ({navigation, route}) => {
           <TouchableOpacity
             style={styles.complaintItem}
             onPress={() =>
-              navigation.navigate('ComplaintDetail', {id: item.id})
+              navigation.navigate('ComplaintDetail', {complaintId: item.id})
             }>
             <Text style={styles.complaintTitle}>{item.title}</Text>
             <Text style={styles.complaintDepartment}>{item.department}</Text>

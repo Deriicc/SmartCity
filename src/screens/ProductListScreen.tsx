@@ -27,14 +27,15 @@ interface NavigationProps {
 const products: Product[] = [
   {
     id: '1',
-    name: '智能工业机器人',
-    description: '六轴工业机器人，适用于各类工业自动化生产线',
+    name: 'Modicon M580 ePAC控制器',
+    description:
+      '高性能可编程自动化控制器，支持EcoStruxure架构，适用于过程自动化和离散自动化',
     image: {
-      uri: 'https://images.pexels.com/photos/2085832/pexels-photo-2085832.jpeg',
+      uri: 'https://download.schneider-electric.com/files?p_Doc_Ref=Modicon_M580_range&p_File_Type=rendition_369_jpg&default_image=DefaultProductImage.png',
     },
-    category: '工业机器人',
-    manufacturer: '智能科技有限公司',
-    price: '¥299,999',
+    category: '自动化控制器',
+    manufacturer: '施耐德电气',
+    price: '¥89,999',
   },
   {
     id: '2',

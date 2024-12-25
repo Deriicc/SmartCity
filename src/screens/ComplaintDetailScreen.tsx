@@ -1,39 +1,69 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// 模拟数据
-const complaintDetail = {
-  id: '1',
-  title: '小区路灯不亮',
-  content: '小区内多处路灯损坏，夜间存在安全隐患，希望能尽快修复。',
-  images: [
-    'https://images.pexels.com/photos/1123982/pexels-photo-1123982.jpeg',
-    'https://images.pexels.com/photos/1123983/pexels-photo-1123983.jpeg',
-  ],
-  department: '市政维修部门',
-  submitTime: '2024-03-15 14:30',
-  status: '处理中',
-  result: '已安排维修人员处理，预计3个工作日内完成维修。',
-};
+const ComplaintDetailScreen = ({route}) => {
+  const [complaint, setComplaint] = useState(null);
 
-const ComplaintDetailScreen = () => {
+  useEffect(() => {
+    const loadComplaintDetail = async () => {
+      try {
+        const savedComplaints = await AsyncStorage.getItem('complaints');
+        if (savedComplaints) {
+          const complaints = JSON.parse(savedComplaints);
+          const found = complaints.find(c => c.id === route.params.complaintId);
+          if (found) {
+            setComplaint(found);
+          }
+        }
+      } catch (error) {
+        console.error('加载诉求详情失败:', error);
+      }
+    };
+
+    loadComplaintDetail();
+  }, [route.params.complaintId]);
+
+  if (!complaint) {
+    return (
+      <View style={styles.container}>
+        <Text>加载中...</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
-        <Text style={styles.title}>{complaintDetail.title}</Text>
-        <Text style={styles.time}>{complaintDetail.submitTime}</Text>
+        <Text style={styles.title}>{complaint.title}</Text>
+        <Text style={styles.time}>{complaint.submitTime}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>诉求类别</Text>
+        <Text style={styles.text}>{complaint.category}</Text>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.label}>诉求内容</Text>
-        <Text style={styles.content}>{complaintDetail.content}</Text>
+        <Text style={styles.content}>{complaint.content}</Text>
       </View>
 
-      {complaintDetail.images.length > 0 && (
+      <View style={styles.section}>
+        <Text style={styles.label}>地点位置</Text>
+        <Text style={styles.text}>{complaint.location}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>联系电话</Text>
+        <Text style={styles.text}>{complaint.phone}</Text>
+      </View>
+
+      {complaint.images && complaint.images.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.label}>相关图片</Text>
           <ScrollView horizontal style={styles.imageContainer}>
-            {complaintDetail.images.map((image, index) => (
+            {complaint.images.map((image, index) => (
               <Image
                 key={index}
                 source={{uri: image}}
@@ -47,19 +77,14 @@ const ComplaintDetailScreen = () => {
 
       <View style={styles.section}>
         <Text style={styles.label}>承办单位</Text>
-        <Text style={styles.text}>{complaintDetail.department}</Text>
+        <Text style={styles.text}>{complaint.department}</Text>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.label}>处理状态</Text>
         <Text style={[styles.status, {color: '#1890ff'}]}>
-          {complaintDetail.status}
+          {complaint.status}
         </Text>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.label}>处理结果</Text>
-        <Text style={styles.text}>{complaintDetail.result}</Text>
       </View>
     </ScrollView>
   );

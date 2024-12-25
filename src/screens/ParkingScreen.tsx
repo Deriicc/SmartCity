@@ -25,7 +25,7 @@ const bannerData = [
   {
     id: '2',
     image: {
-      uri: 'https://images.pexels.com/photos/1756958/pexels-photo-1756958.jpeg',
+      uri: 'https://img95.699pic.com/photo/50129/2524.jpg_wh860.jpg',
     },
   },
 ];
@@ -44,14 +44,25 @@ const parkingLots = [
     },
   },
   {
-    id: '2',
-    name: '商业中心停车场',
-    address: '商业中心B区负一层',
-    distance: '800m',
-    availableSpots: 20,
-    totalSpots: 150,
+    id: '4',
+    name: '医院停车场',
+    address: '市体育中心东门地下停车场',
+    distance: '1.5km',
+    availableSpots: 120,
+    totalSpots: 400,
     image: {
-      uri: 'https://images.pexels.com/photos/1000634/pexels-photo-1000634.jpeg',
+      uri: 'https://media.zhengguannews.cn/picture/catch/202302/07170647806.jpeg?x-oss-process=style/newsdetail',
+    },
+  },
+  {
+    id: '6',
+    name: '火车站停车场',
+    address: '火车站南广场地下停车场',
+    distance: '2.5km',
+    availableSpots: 200,
+    totalSpots: 600,
+    image: {
+      uri: 'https://img1.bjd.com.cn/2024/01/12/84a7fe353f89d257808a37809a7c4f760651764c.jpeg',
     },
   },
 ];

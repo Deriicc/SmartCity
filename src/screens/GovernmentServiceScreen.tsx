@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
   Dimensions,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width} = Dimensions.get('window');
 
@@ -18,14 +20,12 @@ const bannerData = [
   {
     id: '1',
     image: {
-      uri: 'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      uri: 'https://www.beijing.gov.cn/shouye/sylbt/202410/W020241023629987198721.jpg',
     },
   },
   {
     id: '2',
-    image: {
-      uri: 'https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
+    image: require('../../assets/government/image.png'),
   },
 ];
 
@@ -33,75 +33,74 @@ const bannerData = [
 const categories = [
   {
     id: '1',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2544/2544087.png'},
+    icon: <Icon name="road-variant" size={28} color="#1890ff" />,
     name: '市政建设',
     priority: 1,
   },
   {
     id: '2',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2544/2544122.png'},
+    icon: <Icon name="leaf-circle" size={28} color="#52c41a" />,
     name: '环境保护',
     priority: 2,
   },
   {
     id: '3',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2544/2544145.png'},
+    icon: <Icon name="train-car" size={28} color="#722ed1" />,
     name: '交通出行',
     priority: 3,
   },
   {
     id: '4',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2544/2544163.png'},
+    icon: <Icon name="school" size={28} color="#eb2f96" />,
     name: '教育医疗',
     priority: 4,
   },
   {
     id: '5',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2544/2544089.png'},
+    icon: <Icon name="account-group" size={28} color="#fa8c16" />,
     name: '社区服务',
     priority: 5,
   },
   {
     id: '6',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2544/2544099.png'},
+    icon: <Icon name="security" size={28} color="#13c2c2" />,
     name: '公共安全',
     priority: 6,
   },
   {
     id: '7',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2544/2544105.png'},
+    icon: <Icon name="basketball" size={28} color="#2f54eb" />,
     name: '文化体育',
     priority: 7,
   },
   {
     id: '8',
-    icon: {uri: 'https://cdn-icons-png.flaticon.com/128/2544/2544129.png'},
+    icon: <Icon name="comment-question" size={28} color="#595959" />,
     name: '其他诉求',
     priority: 8,
   },
 ];
 
-// 我的诉求数据
-const myComplaints = [
-  {
-    id: '1',
-    title: '小区路灯不亮',
-    department: '市政维修部门',
-    submitTime: '2024-03-15 14:30',
-    status: '处理中',
-    completed: false,
-  },
-  {
-    id: '2',
-    title: '垃圾分类问题',
-    department: '环保部门',
-    submitTime: '2024-03-14 09:20',
-    status: '已完成',
-    completed: true,
-  },
-];
-
 const GovernmentServiceScreen = ({navigation}) => {
+  const [complaints, setComplaints] = useState([]);
+
+  useEffect(() => {
+    const loadComplaints = async () => {
+      try {
+        const savedComplaints = await AsyncStorage.getItem('complaints');
+        if (savedComplaints) {
+          setComplaints(JSON.parse(savedComplaints));
+        }
+      } catch (error) {
+        console.error('加载诉求失败:', error);
+      }
+    };
+
+    const unsubscribe = navigation.addListener('focus', loadComplaints);
+    loadComplaints();
+    return unsubscribe;
+  }, [navigation]);
+
   // 渲染轮播图
   const renderBanner = () => (
     <View style={styles.bannerContainer}>
@@ -135,17 +134,11 @@ const GovernmentServiceScreen = ({navigation}) => {
                 key={category.id}
                 style={styles.categoryItem}
                 onPress={() => {
-                  if (category.name === '其他诉求') {
-                    navigation.navigate('NewComplaint');
-                  } else {
-                    navigation.navigate('ComplaintList', {
-                      category: category.name,
-                    });
-                  }
+                  navigation.navigate('ComplaintList', {
+                    category: category.name,
+                  });
                 }}>
-                <View style={styles.iconContainer}>
-                  <Image source={category.icon} style={styles.icon} />
-                </View>
+                <View style={styles.iconContainer}>{category.icon}</View>
                 <Text style={styles.categoryName}>{category.name}</Text>
               </TouchableOpacity>
             ))}
@@ -161,14 +154,12 @@ const GovernmentServiceScreen = ({navigation}) => {
       <View style={styles.complaintsContainer}>
         <Text style={styles.sectionTitle}>我的诉求</Text>
         <FlatList
-          data={myComplaints.sort((a, b) =>
-            a.completed === b.completed ? 0 : a.completed ? 1 : -1,
-          )}
+          data={complaints}
           renderItem={({item}) => (
             <TouchableOpacity
               style={styles.complaintItem}
               onPress={() =>
-                navigation.navigate('ComplaintDetail', {id: item.id})
+                navigation.navigate('ComplaintDetail', {complaintId: item.id})
               }>
               <Text style={styles.complaintTitle}>{item.title}</Text>
               <Text style={styles.complaintDepartment}>{item.department}</Text>

@@ -97,9 +97,12 @@ const ParkingDetailScreen = ({navigation, route}: ParkingDetailScreenProps) => {
       {/* 底部按钮 */}
       <View style={styles.bottomButtons}>
         <TouchableOpacity
-          style={styles.homeButton}
-          onPress={() => navigation.navigate('Parking')}>
-          <Text style={styles.buttonText}>主页</Text>
+          style={styles.navigationButton}
+          onPress={() =>
+            navigation.navigate('Navigation', {id: parkingLot.id})
+          }>
+          <Icon name="navigation" size={24} color="#fff" />
+          <Text style={styles.buttonText}>导航</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.recordButton}
@@ -170,13 +173,16 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#f0f0f0',
   },
-  homeButton: {
+  navigationButton: {
     flex: 1,
+    flexDirection: 'row',
     backgroundColor: '#1890ff',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 10,
+    gap: 8,
   },
   recordButton: {
     width: 50,

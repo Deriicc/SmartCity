@@ -36,6 +36,8 @@ import DonationHistoryScreen from './src/screens/DonationHistoryScreen';
 import DonationCertificateScreen from './src/screens/DonationCertificateScreen';
 import EducationServiceScreen from './src/screens/EducationServiceScreen';
 import CommunityServiceScreen from './src/screens/CommunityServiceScreen';
+import JobDetailPage from './src/screens/JobDetailPage';
+import {ApplicationProvider} from './src/context/ApplicationContext';
 
 const {width} = Dimensions.get('window');
 
@@ -145,6 +147,7 @@ type RootStackParamList = {
   DonationCertificate: undefined;
   EducationService: undefined;
   CommunityService: undefined;
+  JobDetailPage: {job: any};
 };
 
 type NavigationProp = {
@@ -161,7 +164,7 @@ const newsData = [
     id: '1',
     title: '北京智慧电竞赛事中心明年将举办100场顶级电竞大赛',
     summary:
-      '每经AI快讯，12月22日，据北京亦庄官微消息，在日前举行的中国电竞节超级冠军杯开幕式上，《KPL王者荣耀职业联赛JDG俱乐部主场2025年正式落地北京智慧电竞赛事中心及JDG电子竞技中心全年赛事规划》正式发布。此次发布会，北京经开区科文融合企业京东星宇电竞（北京）文化传播有限公司创始人兼CEO叶靖波共发布两项计划。其中之一是"百赛计划"，即2025年在北京智慧电竞赛事中心将举办100场顶级电竞大赛，平均3.5天一场比赛，覆盖全终端、全头部电竞项目。每日经济新闻',
+      '每经AI快讯，12月22日，据北京亦庄官方微信消息，在日前举行的中国电竞节超级冠军杯开幕式上，《KPL王者荣耀职业联赛JDG俱乐部主场2025年正式落地北京智慧电竞赛事中心及JDG电子竞技中心全年赛事规划》正式发布。此次发布会，北京经开区科文融合企业京东星宇电竞（北京）文化传播有限公司创始人兼CEO叶靖波共发布两项计划。其中之一是"百赛计划"，即2025年在北京智慧电竞赛事中心将举办100场顶级电竞大赛，平均3.5天一场比赛，覆盖全终端、全头部电竞项目。每日经济新闻',
     image:
       'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1khopO.img?w=630&h=472&m=6',
     date: '2024-12-22',
@@ -361,129 +364,142 @@ const MainApp = () => {
 // 修改主 App 组件
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{headerShown: true}}>
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="MainApp"
-          component={MainApp}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="PersonalInfo"
-          component={PersonalInfoScreen}
-          options={{title: '个人信息'}}
-        />
-        <Stack.Screen
-          name="ChangePassword"
-          component={ChangePasswordScreen}
-          options={{title: '修改密码'}}
-        />
-        <Stack.Screen
-          name="Feedback"
-          component={FeedbackScreen}
-          options={{title: '意见反馈'}}
-        />
-        <Stack.Screen
-          name="Job"
-          component={JobNavigator}
-          options={{title: '找工作'}}
-        />
-        <Stack.Screen
-          name="GovernmentService"
-          component={GovernmentServiceScreen}
-          options={{title: '政府服务热线'}}
-        />
-        <Stack.Screen
-          name="ComplaintList"
-          component={ComplaintListScreen}
-          options={{title: '诉求列表'}}
-        />
-        <Stack.Screen
-          name="ComplaintDetail"
-          component={ComplaintDetailScreen}
-          options={{title: '诉求详情'}}
-        />
-        <Stack.Screen
-          name="NewComplaint"
-          component={NewComplaintScreen}
-          options={{title: '新建诉求'}}
-        />
-        <Stack.Screen
-          name="AllServices"
-          component={AllServicesScreen}
-          options={{title: '全部服务'}}
-        />
-        <Stack.Screen
-          name="Parking"
-          component={ParkingNavigator}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="AIService"
-          component={AIServiceScreen}
-          options={{title: 'AI便民'}}
-        />
-        <Stack.Screen
-          name="NewsDetail"
-          component={NewsDetailScreen}
-          options={{title: '新闻详情'}}
-        />
-        <Stack.Screen
-          name="Charity"
-          component={CharityScreen}
-          options={{title: '爱心公益'}}
-        />
-        <Stack.Screen
-          name="CharityDetail"
-          component={CharityDetailScreen}
-          options={{title: '项目详情'}}
-        />
-        <Stack.Screen
-          name="DonationPayment"
-          component={DonationPaymentScreen}
-          options={{title: '捐款支付'}}
-        />
-        <Stack.Screen
-          name="DonationHistory"
-          component={DonationHistoryScreen}
-          options={{title: '捐款记录'}}
-        />
-        <Stack.Screen
-          name="DonationCertificate"
-          component={DonationCertificateScreen}
-          options={{title: '爱心证书'}}
-        />
-        <Stack.Screen
-          name="EducationService"
-          component={EducationServiceScreen}
-          options={{
-            title: '教育服务',
-            headerTitleStyle: {
-              color: '#333',
-              fontSize: 18,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="CommunityService"
-          component={EducationServiceScreen}
-          options={{
-            title: '教育服务',
-            headerTitleStyle: {
-              color: '#333',
-              fontSize: 18,
-            },
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ApplicationProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{headerShown: true}}>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="MainApp"
+            component={MainApp}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="PersonalInfo"
+            component={PersonalInfoScreen}
+            options={{title: '个人信息'}}
+          />
+          <Stack.Screen
+            name="ChangePassword"
+            component={ChangePasswordScreen}
+            options={{title: '修改密码'}}
+          />
+          <Stack.Screen
+            name="Feedback"
+            component={FeedbackScreen}
+            options={{title: '意见反馈'}}
+          />
+          <Stack.Screen
+            name="Job"
+            component={JobNavigator}
+            options={{title: '找工作'}}
+          />
+          <Stack.Screen
+            name="GovernmentService"
+            component={GovernmentServiceScreen}
+            options={{title: '政府服务热线'}}
+          />
+          <Stack.Screen
+            name="ComplaintList"
+            component={ComplaintListScreen}
+            options={{title: '诉求列表'}}
+          />
+          <Stack.Screen
+            name="ComplaintDetail"
+            component={ComplaintDetailScreen}
+            options={{title: '诉求详情'}}
+          />
+          <Stack.Screen
+            name="NewComplaint"
+            component={NewComplaintScreen}
+            options={{title: '新建诉求'}}
+          />
+          <Stack.Screen
+            name="AllServices"
+            component={AllServicesScreen}
+            options={{title: '全部服务'}}
+          />
+          <Stack.Screen
+            name="Parking"
+            component={ParkingNavigator}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="AIService"
+            component={AIServiceScreen}
+            options={{title: 'AI便民'}}
+          />
+          <Stack.Screen
+            name="NewsDetail"
+            component={NewsDetailScreen}
+            options={{title: '新闻详情'}}
+          />
+          <Stack.Screen
+            name="Charity"
+            component={CharityScreen}
+            options={{title: '爱心公益'}}
+          />
+          <Stack.Screen
+            name="CharityDetail"
+            component={CharityDetailScreen}
+            options={{title: '项目详情'}}
+          />
+          <Stack.Screen
+            name="DonationPayment"
+            component={DonationPaymentScreen}
+            options={{title: '捐款支付'}}
+          />
+          <Stack.Screen
+            name="DonationHistory"
+            component={DonationHistoryScreen}
+            options={{title: '捐款记录'}}
+          />
+          <Stack.Screen
+            name="DonationCertificate"
+            component={DonationCertificateScreen}
+            options={{title: '爱心证书'}}
+          />
+          <Stack.Screen
+            name="EducationService"
+            component={EducationServiceScreen}
+            options={{
+              title: '教育服务',
+              headerTitleStyle: {
+                color: '#333',
+                fontSize: 18,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="CommunityService"
+            component={EducationServiceScreen}
+            options={{
+              title: '教育服务',
+              headerTitleStyle: {
+                color: '#333',
+                fontSize: 18,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="JobDetailPage"
+            component={JobDetailPage}
+            options={{
+              title: '职位详情',
+              headerTitleStyle: {
+                color: '#333',
+                fontSize: 18,
+              },
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ApplicationProvider>
   );
 };
 

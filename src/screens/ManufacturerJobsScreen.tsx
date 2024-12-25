@@ -18,7 +18,7 @@ interface Job {
   requirements: string[];
   type: string;
   postDate: string;
-  logo: {uri: string};
+  icon: string;
 }
 
 interface NavigationProps {
@@ -29,54 +29,46 @@ interface NavigationProps {
 const jobs: Job[] = [
   {
     id: '1',
-    title: '自动化工程师',
-    company: '智能科技有限公司',
-    location: '北京市',
+    title: '机械工程师',
+    company: '施耐德电气',
+    location: '上海',
     salary: '15k-25k',
-    requirements: [
-      '自动化或相关专业本科及以上学历',
-      '3年以上工业自动化项目经验',
-      '熟悉PLC编程、工业机器人操作',
-    ],
+    requirements: ['本科及以上学历', '3年以上相关经验', '机械设计经验'],
     type: '全职',
     postDate: '2024-03-15',
-    logo: {
-      uri: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg',
-    },
+    icon: 'factory',
   },
   {
     id: '2',
-    title: '机器人开发工程师',
-    company: '创新机器人公司',
-    location: '上海市',
+    title: '能源管理解决方案工程师',
+    company: '施耐德电气（中国）有限公司',
+    location: '北京市',
     salary: '20k-35k',
     requirements: [
-      '计算机或机械相关专业硕士及以上学历',
-      '熟悉ROS系统开发',
-      '具有机器人控制算法开发经验',
+      '电气/能源管理相关专业本科及以上学历',
+      '熟悉 PowerLogic 系统及能源管理方案',
+      '具备工业现场项目实施经验',
+      '良好的英语沟通能力',
     ],
     type: '全职',
     postDate: '2024-03-14',
-    logo: {
-      uri: 'https://images.pexels.com/photos/1108102/pexels-photo-1108102.jpeg',
-    },
+    icon: 'robot-industrial',
   },
   {
     id: '3',
-    title: '智能制造解决方案工程师',
-    company: '智慧工厂科技',
+    title: '数字化转型技术顾问',
+    company: '施耐德电气（中国）有限公司',
     location: '深圳市',
-    salary: '18k-30k',
+    salary: '30k-45k',
     requirements: [
-      '工业工程或自动化专业本科及以上学历',
-      '熟悉MES系统实施与开发',
-      '具有智能工厂项目经验',
+      '计算机/自动化相关专业硕士及以上学历',
+      '熟悉工业物联网和数字孪生技术',
+      '具备大型工业企业数字化转型项目经验',
+      '精通 EcoStruxure IoT 平台',
     ],
     type: '全职',
     postDate: '2024-03-13',
-    logo: {
-      uri: 'https://images.pexels.com/photos/1108103/pexels-photo-1108103.jpeg',
-    },
+    icon: 'chip',
   },
 ];
 
@@ -90,7 +82,9 @@ const ManufacturerJobsScreen = ({
       style={styles.jobItem}
       onPress={() => navigation.navigate('JobDetail', {id: item.id})}>
       <View style={styles.jobHeader}>
-        <Image source={item.logo} style={styles.companyLogo} />
+        <View style={styles.companyLogo}>
+          <Icon name={item.icon} size={24} color="#1890ff" />
+        </View>
         <View style={styles.jobTitleContainer}>
           <Text style={styles.jobTitle}>{item.title}</Text>
           <Text style={styles.salary}>{item.salary}</Text>
@@ -164,10 +158,21 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   companyLogo: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    marginRight: 12,
+    backgroundColor: '#e6f4ff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   jobTitleContainer: {
     flex: 1,

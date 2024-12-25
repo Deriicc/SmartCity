@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   ScrollView,
@@ -20,25 +20,7 @@ const API_CONFIG = {
 };
 
 // 导入工作数据
-const jobData = [
-  {
-    id: '1',
-    category: '前端开发',
-    title: '前端开发工程师',
-    company: '科技有限公司',
-    location: '北京',
-    salary: '15-25K',
-    responsibilities: 'React Native开发，负责移动端项目开发',
-    contact: '张先生',
-    description:
-      '负责公司移动端产品的开发和维护，参与产品需求分析和技术方案设计。',
-    requirements: '本科及以上学历，3年以上前端开发经验，熟悉React Native开发。',
-    companyName: '科技有限公司',
-    companyIntro:
-      '一家专注于移动互联网产品开发的科技公司，致力于为用户提供优质的移动应用体验。',
-  },
-  // ... 其他工作数据 ...
-];
+import {jobData} from '../data/jobData';
 
 const SYSTEM_PROMPT = {
   role: 'system',
@@ -68,14 +50,26 @@ ${JSON.stringify(jobData, null, 2)}
 请以专业、友好的方式与用户交流，准确推荐符合用户背景的职位。如果没有完全匹配的职位，告诉用户原因并建议其他可能的选择。`,
 };
 
+interface Message {
+  text: string;
+  isUser: boolean;
+}
+
 const AIServiceScreen = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [typingMessage, setTypingMessage] = useState('');
-  const scrollViewRef = useRef(null);
+  const scrollViewRef = useRef<ScrollView | null>(null);
   const textInputRef = useRef(null);
   const typingSpeedRef = useRef(20);
+
+  useEffect(() => {
+    const welcomeMessage =
+      '您好！我是您的求职顾问AI助手。请告诉我您的求职需求，包括您的技能背景、工作经验、期望职位、薪资和地点，我会为您推荐最合适的职位。';
+    setMessages([{text: welcomeMessage, isUser: false}]);
+    typeMessage(welcomeMessage);
+  }, []);
 
   const typeMessage = async (fullMessage: string) => {
     setTypingMessage('');
@@ -242,7 +236,7 @@ const AIServiceScreen = () => {
               {isLoading ? (
                 <ActivityIndicator color="#fff" size="small" />
               ) : (
-                <Icon name="send" size={24} color="#fff" />
+                <Icon name="arrow-forward" size={20} color="#fff" />
               )}
             </TouchableOpacity>
           </View>

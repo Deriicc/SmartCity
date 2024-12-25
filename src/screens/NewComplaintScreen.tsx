@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {launchImageLibrary} from 'react-native-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const categories = [
   '市政建设',
@@ -23,18 +25,7 @@ const categories = [
   '其他',
 ];
 
-const departments = [
-  '市政维修部门',
-  '环保部门',
-  '交通管理部门',
-  '教育局',
-  '卫生局',
-  '公安局',
-  '文化局',
-];
-
-// 添加分类与部门的映射关系
-const categoryToDepartment = {
+const departments = {
   市政建设: '市政维修部门',
   环境保护: '环保部门',
   交通出行: '交通管理部门',
@@ -50,54 +41,84 @@ const NewComplaintScreen = ({navigation, route}) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState(initialCategory);
-  const [department, setDepartment] = useState(
-    categoryToDepartment[initialCategory],
-  );
+  const [location, setLocation] = useState('');
   const [phone, setPhone] = useState('');
   const [images, setImages] = useState([]);
 
-  // 添加分类变化的处理函数
-  const handleCategoryChange = value => {
-    setCategory(value);
-    setDepartment(categoryToDepartment[value]);
+  const handleImagePick = async () => {
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 3,
+    });
+
+    if (result.assets) {
+      setImages([...images, ...result.assets]);
+    }
   };
 
-  const handleSubmit = () => {
-    if (!title.trim() || !content.trim() || !phone.trim()) {
+  const handleSubmit = async () => {
+    if (!title.trim() || !content.trim() || !location.trim() || !phone.trim()) {
       Alert.alert('提示', '请填写完整信息');
       return;
     }
-    // 这里添加提交逻辑
-    Alert.alert('成功', '诉求已提交', [
-      {
-        text: '确定',
-        onPress: () => navigation.goBack(),
-      },
-    ]);
+
+    const newComplaint = {
+      id: Date.now().toString(),
+      title: title.trim(),
+      content: content.trim(),
+      category,
+      department: departments[category],
+      location: location.trim(),
+      phone: phone.trim(),
+      images: images.map(img => img.uri),
+      submitTime: new Date().toLocaleString(),
+      status: '处理中',
+      completed: false,
+    };
+
+    try {
+      // 获取现有诉求列表
+      const existingComplaints = await AsyncStorage.getItem('complaints');
+      const complaints = existingComplaints
+        ? JSON.parse(existingComplaints)
+        : [];
+
+      // 添加新诉求到列表开头
+      complaints.unshift(newComplaint);
+
+      // 保存更新后的列表
+      await AsyncStorage.setItem('complaints', JSON.stringify(complaints));
+
+      Alert.alert('成功', '诉求已提交', [
+        {
+          text: '确定',
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+    } catch (error) {
+      Alert.alert('错误', '保存失败，请重试');
+    }
   };
 
   return (
     <ScrollView style={styles.container}>
-      {initialCategory === '其他' && (
-        <View style={styles.section}>
-          <Text style={styles.label}>诉求分类</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={category}
-              onValueChange={handleCategoryChange} // 使用新的处理函数
-              style={styles.picker}
-              dropdownIconColor="#666"
-              mode="dropdown">
-              {categories.map((cat, index) => (
-                <Picker.Item key={index} label={cat} value={cat} color="#333" />
-              ))}
-            </Picker>
-          </View>
+      <View style={styles.section}>
+        <Text style={styles.label}>诉求分类</Text>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={category}
+            onValueChange={value => setCategory(value)}
+            style={styles.picker}
+            mode="dropdown">
+            {categories.map((cat, index) => (
+              <Picker.Item key={index} label={cat} value={cat} />
+            ))}
+          </Picker>
         </View>
-      )}
+      </View>
 
       <View style={styles.section}>
-        <Text style={styles.label}>标题</Text>
+        <Text style={styles.label}>诉求标题</Text>
         <TextInput
           style={styles.input}
           value={title}
@@ -120,10 +141,13 @@ const NewComplaintScreen = ({navigation, route}) => {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.label}>承办单位</Text>
-        <View style={styles.pickerContainer}>
-          <Text style={styles.departmentText}>{department}</Text>
-        </View>
+        <Text style={styles.label}>地��位置</Text>
+        <TextInput
+          style={styles.input}
+          value={location}
+          onChangeText={setLocation}
+          placeholder="请输入具体地点"
+        />
       </View>
 
       <View style={styles.section}>
@@ -137,8 +161,36 @@ const NewComplaintScreen = ({navigation, route}) => {
         />
       </View>
 
+      <View style={styles.section}>
+        <Text style={styles.label}>承办单位</Text>
+        <View style={styles.departmentContainer}>
+          <Text style={styles.departmentText}>{departments[category]}</Text>
+        </View>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>图片上传</Text>
+        <View style={styles.imageContainer}>
+          {images.map((image, index) => (
+            <Image
+              key={index}
+              source={{uri: image.uri}}
+              style={styles.previewImage}
+            />
+          ))}
+          {images.length < 3 && (
+            <TouchableOpacity
+              style={styles.uploadButton}
+              onPress={handleImagePick}>
+              <Icon name="camera-plus" size={24} color="#999" />
+              <Text style={styles.uploadText}>添加图片</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitText}>提交</Text>
+        <Text style={styles.submitText}>提交诉求</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -178,17 +230,45 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 4,
     backgroundColor: '#fff',
-    marginBottom: 10,
   },
   picker: {
-    height: 60, // 增加高度
-    width: '100%',
-    color: '#333',
+    height: 50,
+  },
+  departmentContainer: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 4,
+    padding: 10,
   },
   departmentText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#333',
-    padding: 15,
+  },
+  imageContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  previewImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 4,
+  },
+  uploadButton: {
+    width: 80,
+    height: 80,
+    borderRadius: 4,
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderStyle: 'dashed',
+  },
+  uploadText: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 4,
   },
   submitButton: {
     backgroundColor: '#1890ff',

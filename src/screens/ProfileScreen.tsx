@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -31,11 +32,25 @@ interface ProfileScreenProps {
 }
 
 const ProfileScreen = ({navigation}: ProfileScreenProps) => {
-  const handleLogout = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'Login'}],
-    });
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('your-logout-api-endpoint', {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error('服务器连接失败');
+      }
+
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Login'}],
+      });
+    } catch (error) {
+      Alert.alert('错误', '退出登录失败，请检查网络连接后重试', [
+        {text: '确定'},
+      ]);
+    }
   };
 
   return (
@@ -43,11 +58,11 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
       <View style={styles.header}>
         <Image
           source={{
-            uri: 'https://via.placeholder.com/100x100',
+            uri: 'https://q4.itc.cn/images01/20241223/6dbf68e48be04119b4a97d43eff79d6b.jpeg',
           }}
           style={styles.avatar}
         />
-        <Text style={styles.username}>Admin</Text>
+        <Text style={styles.username}>Derickiii</Text>
       </View>
 
       <View style={styles.menuContainer}>
@@ -66,11 +81,22 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
           title="意见反馈"
           onPress={() => navigation.navigate('Feedback')}
         />
+        <MenuItem
+          icon="information"
+          title="关于"
+          onPress={() => navigation.navigate('About')}
+        />
       </View>
 
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutText}>退出登录</Text>
       </TouchableOpacity>
+
+      <View style={styles.copyrightContainer}>
+        <Text style={styles.copyrightText}>
+          © 2024 制作人：康凯、周天宇、贾宣
+        </Text>
+      </View>
     </ScrollView>
   );
 };
@@ -126,6 +152,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  copyrightContainer: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  copyrightText: {
+    fontSize: 12,
+    color: '#999',
   },
 });
 

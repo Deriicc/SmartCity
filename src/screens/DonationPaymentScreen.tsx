@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const predefinedAmounts = [10, 50, 100, 500, 1000];
 
@@ -16,6 +17,7 @@ const DonationPaymentScreen = ({route, navigation}: any) => {
   const {project} = route.params;
   const [amount, setAmount] = useState('');
   const [selectedPayMethod, setSelectedPayMethod] = useState('alipay');
+  const [donorName, setDonorName] = useState('');
 
   // 验证输入金额
   const validateAmount = (value: string) => {
@@ -49,8 +51,30 @@ const DonationPaymentScreen = ({route, navigation}: any) => {
     return true;
   };
 
+  // 保存捐款记录
+  const saveDonationRecord = async (record: DonationRecord) => {
+    try {
+      // 获取现有记录
+      const existingRecords = await AsyncStorage.getItem('donationRecords');
+      let records = existingRecords ? JSON.parse(existingRecords) : [];
+
+      // 添加新记录
+      records.unshift(record); // 将新记录添加到开头
+
+      // 保存更新后的记录
+      await AsyncStorage.setItem('donationRecords', JSON.stringify(records));
+    } catch (error) {
+      console.error('保存捐款记录失败:', error);
+    }
+  };
+
   const handlePayment = () => {
     if (!validateFinalAmount()) {
+      return;
+    }
+
+    if (!donorName.trim()) {
+      Alert.alert('提示', '请输入您的姓名');
       return;
     }
 
@@ -66,11 +90,34 @@ const DonationPaymentScreen = ({route, navigation}: any) => {
         },
         {
           text: '确认',
-          onPress: () => {
-            // TODO: 这里添加实际支付逻辑
+          onPress: async () => {
+            // 生成证书数据
+            const certificateData = {
+              id: Math.random().toString(36).substr(2, 9),
+              projectId: project.id,
+              projectTitle: project.title,
+              projectImage: project.image,
+              amount: parseFloat(amount),
+              date: new Date().toLocaleString(),
+              paymentMethod: selectedPayMethod,
+              status: 'success',
+              certificateId: `CERT${Date.now()}`,
+              donorName: donorName,
+            };
+
+            // 保存记录
+            await saveDonationRecord(certificateData);
+
             Alert.alert('支付成功', '感谢您的爱心捐款！', [
               {
-                text: '确定',
+                text: '查看证书',
+                onPress: () =>
+                  navigation.replace('DonationCertificate', {
+                    record: certificateData,
+                  }),
+              },
+              {
+                text: '返回',
                 onPress: () => navigation.goBack(),
               },
             ]);
@@ -90,6 +137,17 @@ const DonationPaymentScreen = ({route, navigation}: any) => {
       <ScrollView style={styles.content}>
         <Text style={styles.title}>爱心捐款</Text>
         <Text style={styles.projectTitle}>{project.title}</Text>
+
+        <View style={styles.nameSection}>
+          <Text style={styles.sectionTitle}>捐赠者信息</Text>
+          <TextInput
+            style={styles.nameInput}
+            placeholder="请输入您的姓名（用于证书展示）"
+            value={donorName}
+            onChangeText={setDonorName}
+            maxLength={20}
+          />
+        </View>
 
         <View style={styles.amountSection}>
           <Text style={styles.sectionTitle}>捐款金额</Text>
@@ -292,6 +350,19 @@ const styles = StyleSheet.create({
   },
   submitButtonDisabled: {
     backgroundColor: '#ccc',
+  },
+  nameSection: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 15,
+    marginBottom: 20,
+  },
+  nameInput: {
+    borderWidth: 1,
+    borderColor: '#e8e8e8',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
   },
 });
 
