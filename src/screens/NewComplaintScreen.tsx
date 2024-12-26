@@ -36,7 +36,13 @@ const departments = {
   其他: '市政维修部门',
 };
 
-const NewComplaintScreen = ({navigation, route}) => {
+const NewComplaintScreen = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
   const initialCategory = route.params?.category || '其他';
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

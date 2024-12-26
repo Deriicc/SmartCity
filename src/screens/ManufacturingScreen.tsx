@@ -41,13 +41,44 @@ const manufacturers = [
     video: 'video_url_1',
   },
   {
-    id: '2',
-    name: '创新机器人公司',
-    description: '工业机器人研发与制造',
+    id: '6',
+    name: '华为（Huawei）',
+    description:
+      '全球领先的ICT基础设施和智能终端提供商，在工业互联网和智能制造解决方案领域具有强大实力',
     image: {
-      uri: 'https://images.pexels.com/photos/1108102/pexels-photo-1108102.jpeg',
+      uri: 'https://bpic.588ku.com/video_listen_yay/video/12757_20230905104048_1.jpg',
     },
-    video: 'video_url_2',
+    video: 'assets/video/huawei-smart-manufacturing.mp4',
+  },
+  {
+    id: '7',
+    name: '海尔卡奥斯（COSMOPlat）',
+    description:
+      '全球领先的工业互联网平台，提供智能制造整体解决方案，打造大规模定制化生产模式',
+    image: {
+      uri: 'https://tse2-mm.cn.bing.net/th/id/OIP-C.8826hZv8qSt6vEt4DkjiQwHaE7?rs=1&pid=ImgDetMain',
+    },
+    video: 'assets/video/cosmoplat-platform.mp4',
+  },
+  {
+    id: '8',
+    name: '新松机器人（SIASUN）',
+    description:
+      '中国最大的机器人上市公司，专注于工业机器人、协作机器人和智能装备的研发与制造',
+    image: {
+      uri: 'https://www.siasun.com/ueditor/php/upload/image/20170110/1484034103604655.jpg',
+    },
+    video: 'assets/video/siasun-robots.mp4',
+  },
+  {
+    id: '9',
+    name: '美的集团（Midea）',
+    description:
+      '全球领先的智能家居科技集团，在工业自动化和机器人领域持续创新，拥有库卡机器人等核心技术',
+    image: {
+      uri: 'https://ts1.cn.mm.bing.net/th/id/R-C.ffdbe8154dd6e24bf56a7d210e3c841f?rik=Ef3k%2fRh70bvWEg&riu=http%3a%2f%2fpro.statics.logoqs.techuangyi.com%2f2016%2f06%2f11%2f4820209a57cdc254c478fa6bee5c3c61.jpg&ehk=mkJ1aSKgsdoVLmHczSzlDsQk93z9Id6gdNHvqD9zhns%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1',
+    },
+    video: 'assets/video/midea-automation.mp4',
   },
 ];
 

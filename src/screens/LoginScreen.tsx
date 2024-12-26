@@ -17,6 +17,12 @@ interface User {
   registerTime: string;
 }
 
+// 定义管理员账号信息
+const ADMIN_CREDENTIALS = {
+  username: 'admin',
+  password: 'admin123',
+};
+
 const LoginScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -42,6 +48,16 @@ const LoginScreen = ({navigation}) => {
         return;
       }
 
+      // 检查是否是管理员登录
+      if (
+        username === ADMIN_CREDENTIALS.username &&
+        password === ADMIN_CREDENTIALS.password
+      ) {
+        navigation.replace('MainApp');
+        return;
+      }
+
+      // 如果不是管理员，继续原有的用户验证逻辑
       const usersJSON = await AsyncStorage.getItem('users');
       const users: Record<string, User> = usersJSON
         ? JSON.parse(usersJSON)
@@ -68,7 +84,7 @@ const LoginScreen = ({navigation}) => {
 
     try {
       setIsLoading(true);
-      // 这里替换成您的实际API地���
+      // 这里替换成您的实际API地址
       const response = await fetch('http://10.0.2.2:3000/send-verification', {
         method: 'POST',
         headers: {

@@ -39,25 +39,27 @@ const products: Product[] = [
   },
   {
     id: '2',
-    name: 'AGV物流机器人',
-    description: '智能物流搬运机器人，可自主导航和路径规划',
+    name: 'EasyPact MVS',
+    description:
+      'EasyPact MVS是一款可应用于各种行业的低压配电空气断路器及隔离开关，性能安全可靠，功能齐全。包含2种规格尺寸，额定电流覆盖630A至4000A',
     image: {
-      uri: 'https://images.pexels.com/photos/2085833/pexels-photo-2085833.jpeg',
+      uri: 'https://download.schneider-electric.com/files?p_Doc_Ref=RNG_61227_main_image1&p_File_Type=rendition_369_jpg&default_image=DefaultProductImage.png',
     },
-    category: '物流机器人',
-    manufacturer: '创新机器人公司',
-    price: '¥159,999',
+    category: '空气断路器',
+    manufacturer: '施耐德电气',
+    price: '¥35,999',
   },
   {
     id: '3',
-    name: '智能生产线系统',
-    description: '全自动化生产线解决方案，包含控制系统和执行设备',
+    name: 'EcoStruxure™ Mobility数字化移动运维系统',
+    description:
+      'EcoStructure Mobility数字化移动运维系统的系统架构是采用在控制区域内布置NFC智能标签，移动终端与移动运维服务器通过标准无线网络通信，移动终端的服务应用实现系统能源与资产管理。同时移动运维服务器与SCADA系统相连接，SCADA系统进行中央控制。',
     image: {
-      uri: 'https://images.pexels.com/photos/2085834/pexels-photo-2085834.jpeg',
+      uri: 'https://download.schneider-electric.com/files?p_Doc_Ref=IMG65399_main&p_File_Type=rendition_369_jpg&default_image=DefaultProductImage.png',
     },
-    category: '自动化系统',
-    manufacturer: '智慧工厂科技',
-    price: '¥999,999',
+    category: '电源系统',
+    manufacturer: '施耐德电气',
+    price: '¥128,000',
   },
 ];
 

@@ -183,7 +183,7 @@ const ManufacturerDetailScreen: React.FC<Props> = ({navigation, route}) => {
           <Video
             ref={videoRef}
             source={{
-              uri: 'https://upos-sz-mirrorcos.bilivideo.com/upgcxcode/40/85/1329578540/1329578540-1-192.mp4?e=ig8euxZM2rNcNbNghWdVhwdlhbN1hwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1735043000&gen=playurlv2&os=cosbv&oi=1696788563&trid=29e756cd671d4250970a42532e6c313fT&mid=275670816&platform=html5&og=cos&upsig=6d147e4162834feba682cde7f72ea2ae&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform,og&bvc=vod&nettype=0&bw=221830&orderid=0,1&buvid=&build=0&mobi_app=&f=T_0_0&logo=80000000',
+              uri: require('../../assets/video/1329578540-1-192.mp4'),
             }}
             poster={manufacturer.image.uri}
             posterResizeMode="cover"

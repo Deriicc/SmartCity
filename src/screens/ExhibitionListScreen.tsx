@@ -23,40 +23,24 @@ interface Exhibition {
 // 模拟数据
 const exhibitions: Exhibition[] = [
   {
-    id: '1',
-    title: '2024智能制造展',
-    description: '展示最新工业自动化技术和智能制造解决方案',
-    image: {
-      uri: 'https://images.pexels.com/photos/3846766/pexels-photo-3846766.jpeg',
-    },
-    date: '2024-05-15 至 2024-05-18',
-    location: '北京国际展览中心',
-    status: 'upcoming',
-    registrationDeadline: '2024-04-30',
-  },
-  {
     id: '2',
-    title: '工业4.0展览会',
-    description: '聚焦工业互联网、人工智能、大数据等前沿技术',
-    image: {
-      uri: 'https://images.pexels.com/photos/3846767/pexels-photo-3846767.jpeg',
-    },
-    date: '2024-03-20 至 2024-03-23',
-    location: '上海新国际博览中心',
-    status: 'ongoing',
-    registrationDeadline: '2024-03-10',
+    title: '2024世界智能制造博览会',
+    description: '全球智能制造技术与解决方案展示交流平台',
+    image: require('../../assets/image1.png'),
+    date: '2024-12-10 至 2024-12-22',
+    location: '南京国际博览中心',
+    status: 'upcoming',
+    registrationDeadline: '2024-05-31',
   },
   {
     id: '3',
-    title: '机器人与自动化展',
-    description: '展示工业机器人、协作机器人及自动化设备',
-    image: {
-      uri: 'https://images.pexels.com/photos/3846768/pexels-photo-3846768.jpeg',
-    },
-    date: '2024-02-25 至 2024-02-28',
-    location: '深圳会展中心',
-    status: 'ended',
-    registrationDeadline: '2024-02-15',
+    title: '2024世界智能网联汽车大会（WICV）',
+    description: '展示智能网联汽车最新技术发展与应用',
+    image: require('../../assets/image2.png'),
+    date: '2024-07-15 至 2024-07-18',
+    location: '上海国家会展中心',
+    status: 'upcoming',
+    registrationDeadline: '2024-06-30',
   },
 ];
 

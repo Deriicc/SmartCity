@@ -12,11 +12,12 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Markdown from 'react-native-markdown-display';
 
-// 添加 API 配置
+// 修改 API 配置
 const API_CONFIG = {
-  BASE_URL: 'http://chatapi.littlewheat.com/v1',
-  API_KEY: 'sk-mMcqJjsnxC15hvr651PrNU2nITqCaAyadEDVGJSkpvH5sEZk', // 请替换为你的实际 API key
+  BASE_URL: 'https://chatapi.littlewheat.com/v1',
+  API_KEY: 'sk-mMcqJjsnxC15hvr651PrNU2nITqCaAyadEDVGJSkpvH5sEZk',
 };
 
 // 导入工作数据
@@ -75,12 +76,13 @@ const AIServiceScreen = () => {
     setTypingMessage('');
     for (let i = 0; i <= fullMessage.length; i++) {
       setTypingMessage(fullMessage.slice(0, i));
+      scrollViewRef.current?.scrollToEnd({animated: false});
       await new Promise(resolve => setTimeout(resolve, typingSpeedRef.current));
     }
     return fullMessage;
   };
 
-  const renderMessage = (message, index) => {
+  const renderMessage = (message: Message, index: number) => {
     const isLastMessage = index === messages.length - 1;
     const displayText =
       isLastMessage && !message.isUser ? typingMessage : message.text;
@@ -97,13 +99,47 @@ const AIServiceScreen = () => {
             styles.messageBubble,
             message.isUser ? styles.userBubble : styles.aiBubble,
           ]}>
-          <Text
-            style={[
-              styles.messageText,
-              message.isUser ? styles.userMessageText : styles.aiMessageText,
-            ]}>
-            {displayText}
-          </Text>
+          {message.isUser ? (
+            <Text style={[styles.messageText, styles.userMessageText]}>
+              {displayText}
+            </Text>
+          ) : (
+            <Markdown
+              style={{
+                body: styles.aiMessageText,
+                heading1: {
+                  ...styles.aiMessageText,
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  marginBottom: 10,
+                  marginTop: 16,
+                },
+                heading2: {
+                  ...styles.aiMessageText,
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                  marginBottom: 8,
+                  marginTop: 14,
+                },
+                paragraph: {
+                  ...styles.aiMessageText,
+                  marginBottom: 10,
+                },
+                list: {
+                  ...styles.aiMessageText,
+                  marginBottom: 10,
+                },
+                listItem: {
+                  ...styles.aiMessageText,
+                  marginBottom: 6,
+                },
+                listItemBullet: {
+                  marginRight: 8,
+                },
+              }}>
+              {displayText}
+            </Markdown>
+          )}
           <Text style={[styles.timeText, !message.isUser && {color: '#999'}]}>
             {new Date().toLocaleTimeString([], {
               hour: '2-digit',
@@ -182,7 +218,7 @@ const AIServiceScreen = () => {
         ]);
       } catch (error) {
         console.error('Send message error:', error);
-        Alert.alert('错误', '发送消息失败，请检查网络连接后重试。', [
+        Alert.alert('错误', '发送消息失败，请检查网络连接重试。', [
           {text: '确定'},
         ]);
       } finally {
@@ -190,6 +226,13 @@ const AIServiceScreen = () => {
         scrollViewRef.current?.scrollToEnd({animated: true});
       }
     }
+  };
+
+  const onInputFocus = () => {
+    // 给输入框一点时间获得焦点
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({animated: true});
+    }, 100);
   };
 
   return (
@@ -221,6 +264,7 @@ const AIServiceScreen = () => {
               style={styles.input}
               value={inputText}
               onChangeText={setInputText}
+              onFocus={onInputFocus}
               placeholder="请输入您的问题..."
               placeholderTextColor="#999"
               multiline
@@ -291,6 +335,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   aiMessageText: {
+    fontSize: 16,
     color: '#333',
   },
   timeText: {

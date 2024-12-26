@@ -32,25 +32,23 @@ interface ProfileScreenProps {
 }
 
 const ProfileScreen = ({navigation}: ProfileScreenProps) => {
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('your-logout-api-endpoint', {
-        method: 'POST',
-      });
-
-      if (!response.ok) {
-        throw new Error('服务器连接失败');
-      }
-
-      navigation.reset({
-        index: 0,
-        routes: [{name: 'Login'}],
-      });
-    } catch (error) {
-      Alert.alert('错误', '退出登录失败，请检查网络连接后重试', [
-        {text: '确定'},
-      ]);
-    }
+  const handleLogout = () => {
+    Alert.alert('退出登录', '确定要退出登录吗？', [
+      {
+        text: '取消',
+        style: 'cancel',
+      },
+      {
+        text: '确定',
+        onPress: () => {
+          // 清除登录状态
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'Login'}],
+          });
+        },
+      },
+    ]);
   };
 
   return (

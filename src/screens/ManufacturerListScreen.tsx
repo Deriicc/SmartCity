@@ -13,33 +13,58 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const manufacturers = [
   {
     id: '1',
-    name: '智能科技有限公司',
-    description: '专注于工业自动化解决方案',
+    name: '施耐德电器',
+    description:
+      '全球能效管理和自动化领域专家，为工业、基础设施、数据中心、楼宇和住宅市场提供整体解决方案',
     image: {
-      uri: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg',
+      uri: 'https://th.bing.com/th/id/R.137b1cbbc333eb2260841d61cbb847b9?rik=dAt9baJovaFClQ&riu=http%3a%2f%2fi1.qhimg.com%2ft01c93622f8963fb708.jpg&ehk=4WPah5soFP0v0POfFlbEeWILF96iXtMP174Wl%2f7AM9c%3d&risl=&pid=ImgRaw&r=0',
     },
     category: '自动化',
     location: '北京市',
   },
   {
-    id: '2',
-    name: '创新机器人公司',
-    description: '工业机器人研发与制造',
+    id: '6',
+    name: '华为（Huawei）',
+    description:
+      '全球领先的ICT基础设施和智能终端提供商，在工业互联网和智能制造解决方案领域具有强大实力',
     image: {
-      uri: 'https://images.pexels.com/photos/1108102/pexels-photo-1108102.jpeg',
+      uri: 'https://bpic.588ku.com/video_listen_yay/video/12757_20230905104048_1.jpg',
     },
-    category: '机器人',
-    location: '上海市',
+    category: '工业互联网',
+    location: '深圳市',
   },
   {
-    id: '3',
-    name: '智慧工厂科技',
-    description: '提供智能制造整体解决方案',
+    id: '7',
+    name: '海尔卡奥斯（COSMOPlat）',
+    description:
+      '全球领先的工业互联网平台，提供智能制造整体解决方案，打造大规模定制化生产模式',
     image: {
-      uri: 'https://images.pexels.com/photos/1108103/pexels-photo-1108103.jpeg',
+      uri: 'https://tse2-mm.cn.bing.net/th/id/OIP-C.8826hZv8qSt6vEt4DkjiQwHaE7?rs=1&pid=ImgDetMain',
+    },
+    category: '工业互联网',
+    location: '青岛市',
+  },
+  {
+    id: '8',
+    name: '新松机器人（SIASUN）',
+    description:
+      '中国最大的机器人上市公司，专注于工业机器人、协作机器人和智能装备的研发与制造',
+    image: {
+      uri: 'https://www.siasun.com/ueditor/php/upload/image/20170110/1484034103604655.jpg',
+    },
+    category: '机器人',
+    location: '沈阳市',
+  },
+  {
+    id: '9',
+    name: '美的集团（Midea）',
+    description:
+      '全球领先的智能家居科技集团，在工业自动化和机器人领域持续创新，拥有库卡机器人等核心技术',
+    image: {
+      uri: 'https://ts1.cn.mm.bing.net/th/id/R-C.ffdbe8154dd6e24bf56a7d210e3c841f?rik=Ef3k%2fRh70bvWEg&riu=http%3a%2f%2fpro.statics.logoqs.techuangyi.com%2f2016%2f06%2f11%2f4820209a57cdc254c478fa6bee5c3c61.jpg&ehk=mkJ1aSKgsdoVLmHczSzlDsQk93z9Id6gdNHvqD9zhns%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1',
     },
     category: '智能制造',
-    location: '深圳市',
+    location: '佛山市',
   },
 ];
 
