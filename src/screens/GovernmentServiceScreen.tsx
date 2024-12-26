@@ -148,38 +148,34 @@ const GovernmentServiceScreen = ({navigation}) => {
   );
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {renderBanner()}
       {renderCategories()}
       <View style={styles.complaintsContainer}>
         <Text style={styles.sectionTitle}>我的诉求</Text>
-        <FlatList
-          data={complaints}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              style={styles.complaintItem}
-              onPress={() =>
-                navigation.navigate('ComplaintDetail', {complaintId: item.id})
-              }>
-              <Text style={styles.complaintTitle}>{item.title}</Text>
-              <Text style={styles.complaintDepartment}>{item.department}</Text>
-              <View style={styles.complaintFooter}>
-                <Text style={styles.complaintTime}>{item.submitTime}</Text>
-                <Text
-                  style={[
-                    styles.complaintStatus,
-                    {color: item.completed ? '#52c41a' : '#1890ff'},
-                  ]}>
-                  {item.status}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          keyExtractor={item => item.id}
-          style={styles.complaintList}
-        />
+        {complaints.map(item => (
+          <TouchableOpacity
+            key={item.id}
+            style={styles.complaintItem}
+            onPress={() =>
+              navigation.navigate('ComplaintDetail', {complaintId: item.id})
+            }>
+            <Text style={styles.complaintTitle}>{item.title}</Text>
+            <Text style={styles.complaintDepartment}>{item.department}</Text>
+            <View style={styles.complaintFooter}>
+              <Text style={styles.complaintTime}>{item.submitTime}</Text>
+              <Text
+                style={[
+                  styles.complaintStatus,
+                  {color: item.completed ? '#52c41a' : '#1890ff'},
+                ]}>
+                {item.status}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

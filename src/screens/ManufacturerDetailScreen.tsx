@@ -86,15 +86,16 @@ interface Props {
 const ManufacturerDetailScreen: React.FC<Props> = ({navigation, route}) => {
   const [activeTab, setActiveTab] = useState('info'); // info, products, contact
   const [isPaused, setIsPaused] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const videoRef = useRef(null);
 
   const onFullscreenPlayerWillPresent = () => {
-    // 强制横屏
+    setIsFullscreen(true);
     Orientation.lockToLandscape();
   };
 
   const onFullscreenPlayerWillDismiss = () => {
-    // 退出全屏时恢复竖屏
+    setIsFullscreen(false);
     Orientation.lockToPortrait();
   };
 
@@ -179,19 +180,24 @@ const ManufacturerDetailScreen: React.FC<Props> = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View style={styles.videoContainer}>
+        <View
+          style={[
+            styles.videoContainer,
+            isFullscreen && styles.fullscreenVideo,
+          ]}>
           <Video
             ref={videoRef}
             source={{
               uri: require('../../assets/video/1329578540-1-192.mp4'),
             }}
             poster={manufacturer.image.uri}
-            posterResizeMode="cover"
+            posterResizeMode="contain"
             style={styles.video}
             paused={isPaused}
             repeat={true}
             controls={true}
-            resizeMode="cover"
+            resizeMode="contain"
+            fullscreenAutorotate={true}
             onFullscreenPlayerWillPresent={onFullscreenPlayerWillPresent}
             onFullscreenPlayerWillDismiss={onFullscreenPlayerWillDismiss}
           />
@@ -353,13 +359,24 @@ const styles = StyleSheet.create({
   },
   videoContainer: {
     width: width,
-    height: width * 0.6,
+    height: width * 0.5625,
     backgroundColor: '#000',
     position: 'relative',
+  },
+  fullscreenVideo: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 999,
   },
   video: {
     width: '100%',
     height: '100%',
+    backgroundColor: '#000',
   },
 });
 
