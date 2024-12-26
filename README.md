@@ -1,3 +1,7 @@
+# 简介
+** 本项目为北京电子科技职业学院-移动应用开发赛项作品 **
+** 参赛人 ： 康凯、周天宇、贾轩 **
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
